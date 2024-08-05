@@ -35,10 +35,17 @@ const MORSE_TABLE = {
     '---..':  '8',
     '----.':  '9',
     '-----':  '0',
+    '**********': ' ',
 };
 
 function decode(expr) {
-    // write your solution here
+    const replacements = { '10': '.', '11': '-' };
+    let chunkSize = 10;
+    return expr.match(new RegExp(`.{1,${chunkSize}}`, 'g'))
+                .map(value => value.replace(/^0+/, ''))
+                .map(value => value.replace(/10|11/g, (match) => replacements[match] ))
+                .map(value => MORSE_TABLE[value])
+                .join('');
 }
 
 module.exports = {
